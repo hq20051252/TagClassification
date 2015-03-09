@@ -32,7 +32,7 @@ def preperform(s):
     :param s: 一个用户的所有标签.
     :return: 一个标签词的列表.
     """
-    delimiters = "[;,；，　 ]"
+    delimiters = "[;,；，]"
     fields = re.split(delimiters, s)
     return fields
 
@@ -64,6 +64,58 @@ def prefilter(s):
     return True
 
 
+def extractword(s):
+    """
+    抽取可以用于构建词库的标签词．
+    :param s: 用户的所有标签词
+    :return:　可以作为词库词的标签词, 是一个集合类型.
+    """
+    res = set()
+    words = preperform(s)
+
+    for word in words:
+        if not prefilter(word):
+            res.add(word)
+
+    return res
+
+
+def buildciku():
+    """
+    构建词库的主函数．
+    :return: 无返回值.
+    """
+    if len(sys.argv) >= 4:
+        inputf = sys.argv[1]
+        output = sys.argv[2]
+        filters = sys.argv[3:]
+    else:
+        filters = ['tg']
+        inputf = "../data/tag.j1"
+        output = "../data/output.j1"
+    fd = open(inputf, "rb")
+    fo = open(output, "wb")
+
+    for line in fd.xreadlines():
+        j1 = json.loads(line)
+        res = extract_fields(j1, filters)
+        if not res:
+            pass
+        else:
+            if len(res.keys()) == 1:
+                value = res.values()[0]
+                words = extractword(value)
+                # print value
+                for word in words:
+                    fo.write(word.encode("utf-8"))
+            else:
+                pass
+    fd.close()
+    fo.close()
+
+    return
+
+
 def main():
     if len(sys.argv) >= 4:
         inputf = sys.argv[1]
@@ -92,4 +144,4 @@ def main():
     fo.close()
 
 if __name__ == "__main__":
-    main()
+    buildciku()
