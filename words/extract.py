@@ -1,17 +1,23 @@
 #!/usr/bin/python
-#-*-coding:utf-8-*-
+# -*-coding:utf-8-*-
 
+"""
+此脚本的作用是从json构成的文本串中, 抽取指定的字段.
+"""
+import re
+import sys
 import json
 
 
 def extract_fields(j1, filters):
-    ''' @param: j1 一个记录, 由json转的字典.
+    """
+    @param: j1 一个记录, 由json转的字典.
     @param: filters 需要抽取的字段列表.
     @return: 结果.
-    '''
+    """
 
+    res = {}
     for tag in filters:
-        res = {}
         if tag not in j1:
             return {}
         else:
@@ -20,11 +26,54 @@ def extract_fields(j1, filters):
     return res
 
 
+def preperform(s):
+    """
+    标签词的预处理, 将由逗号, 分号, 空格分隔的标签词分开成一行一词.
+    :param s: 一个用户的所有标签.
+    :return: 一个标签词的列表.
+    """
+    delimiters = "[;,；，　 ]"
+    fields = re.split(delimiters, s)
+    return fields
+
+
+def prefilter(s):
+    """
+    对标签词进行粗过滤, 除掉太长的词, 只保留4字内的词.
+    :param s: 标签词
+    :return: 是否过滤, True表示要滤掉, False要保留.
+    """
+    # 常量
+    cnfixedlength = 4
+    enfixedlength = 4
+
+    # 判断标签词类型
+    fields = s.strip().split(" ")
+    stype = "cn"
+    for field in fields:
+        if field.isalnum():
+            stype = "en"
+        else:
+            stype = "cn"
+
+    if stype == "cn" and len(s) <= cnfixedlength:
+        return False
+    elif stype == "en" and len(fields) <= enfixedlength:
+        return False
+
+    return True
+
+
 def main():
-    filters = ['tg']
-    f = "../data/tag.j1"
-    output = "../data/output.j1"
-    fd = open(f, "rb")
+    if len(sys.argv) >= 4:
+        inputf = sys.argv[1]
+        output = sys.argv[2]
+        filters = sys.argv[3:]
+    else:
+        filters = ['tg']
+        inputf = "../data/tag.j1"
+        output = "../data/output.j1"
+    fd = open(inputf, "rb")
     fo = open(output, "wb")
 
     for line in fd.xreadlines():
@@ -44,6 +93,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-

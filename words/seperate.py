@@ -1,14 +1,12 @@
 #!/usr/bin/python
-#-*-coding:utf-8-*-
-
-import json
+# -*-coding:utf-8-*-
 
 
 def filter_tag(tagmap, tag):
-    ''' @param: tagmap 一个字典, 键是tag, 值是类别.
+    """ @param: tagmap 一个字典, 键是tag, 值是类别.
     @param: tag需要分类的标签词.
     @return: 词属于的类别.
-    '''
+    """
 
     if tag in tagmap:
         return tagmap[tag]
