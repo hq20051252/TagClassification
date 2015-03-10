@@ -137,7 +137,7 @@ def main():
             if len(res.keys()) == 1:
                 value = res.values()[0]
                 # print value
-                fo.write(value.encode("utf-8"))
+                fo.write(value.encode("utf-8") + "\n")
             else:
                 pass
     fd.close()
