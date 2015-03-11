@@ -43,7 +43,8 @@ def baikeclarify():
     progress = 0
     for line in fd.xreadlines():
         progress += 1
-        print
+        sys.stdout(progress + "\r")
+
         res = prefilter(line)
         if not res:
             fo.write(line)
