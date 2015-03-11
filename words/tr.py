@@ -72,7 +72,7 @@ def main():
                 print "Error: <type> must be 'B2Q'(半角转全角), 'Q2B'(全角转半角). "
                 sys.exit(1)
 
-            fo.write(b)
+            fo.write(b.encode("utf-8"))
 
     fo.close()
 
