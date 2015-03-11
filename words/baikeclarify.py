@@ -24,6 +24,11 @@ def prefilter(s):
         False
 
 
+def usage():
+    print "Usage: python baikeclarify.py <input> <output> <otheroutput>"
+    sys.exit(1)
+
+
 def baikeclarify():
     """
     构建词库的主函数．
