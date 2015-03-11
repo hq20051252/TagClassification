@@ -46,20 +46,35 @@ def test():
 
 
 def usage():
-    print "python tr.py <filename>"
+    print "Usage: python tr.py <type> <input> <output>"
     sys.exit(1)
 
 
 def main():
-    if len(sys.argv) == 2:
-        f = sys.argv[1]
+    if len(sys.argv) == 4:
+        conv = sys.argv[1]
+        f = sys.argv[2]
+        o = sys.argv[3]
+
     else:
         usage()
 
+    fo = open(o, "wb")
     with open(f, "rb") as fd:
         for line in fd.xreadlines():
-            b = strQ2B(line.decode("utf-8"))
-            print b.encode("utf-8")
+            if conv == "Q2B":
+                b = strQ2B(line.decode("utf-8"))
+                print b.encode("utf-8")
+            elif conv == "B2Q":
+                b = strB2Q(line.decode("utf-8"))
+                print b.encode("utf-8")
+            else:
+                print "Error: <type> must be 'B2Q'(半角转全角), 'Q2B'(全角转半角). "
+                sys.exit(1)
+
+            fo.write(b)
+
+    fo.close()
 
 
 if __name__ == "__main__":
