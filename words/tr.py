@@ -64,10 +64,10 @@ def main():
         for line in fd.xreadlines():
             if conv == "Q2B":
                 b = strQ2B(line.decode("utf-8"))
-                print b.encode("utf-8")
+                # print b.encode("utf-8")
             elif conv == "B2Q":
                 b = strB2Q(line.decode("utf-8"))
-                print b.encode("utf-8")
+                # print b.encode("utf-8")
             else:
                 print "Error: <type> must be 'B2Q'(半角转全角), 'Q2B'(全角转半角). "
                 sys.exit(1)
