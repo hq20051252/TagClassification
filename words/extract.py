@@ -51,17 +51,18 @@ def prefilter(s):
     fields = s.strip().split(" ")
     stype = "cn"
     for field in fields:
-        if field.isalnum():
+        if field.encode("utf-8").isalnum():
             stype = "en"
         else:
             stype = "cn"
 
+    # print s.encode("utf-8"), stype, len(s)
     if stype == "cn" and len(s) <= cnfixedlength:
         return False
     elif stype == "en" and len(fields) <= enfixedlength:
         return False
-
-    return True
+    else: 
+        return True
 
 
 def extractword(s):
@@ -104,10 +105,12 @@ def buildciku():
         else:
             if len(res.keys()) == 1:
                 value = res.values()[0]
+                #print value.encode("utf-8")
                 words = extractword(value)
-                # print value
+
                 for word in words:
-                    fo.write(word.encode("utf-8"))
+                    # print len(word), word.encode("utf-8")
+                    fo.write(word.encode("utf-8") + "\n")
             else:
                 pass
     fd.close()
