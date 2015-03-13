@@ -32,12 +32,17 @@ function etl(){
 
     # 查找　"[//]@用户A："　这种格式
     echo "删除@引用"
-    sed -e "s/\/* *@[0-9a-zA-Z]\+：//g"  $1  > ${temp}
+    sed -e "s/\/* *@[0-9a-zA-Z]\+：\{,1\}//g"  $1  > ${temp}
     mv ${temp} $1
 
     # 查找url链接
     echo "删除url链接"
     sed -e "s/http:\/\/[0-9a-zA-Z&\/.]\+//g"  $1  > ${temp}
+    mv ${temp} $1
+
+    # 删除短微博
+    echo "删除短微博"
+    awk '{if(length($0) >= 80 && length($0) <= 180) print $0;}' $1  > ${temp}
     mv ${temp} $1
 
 }
