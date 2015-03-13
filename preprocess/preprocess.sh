@@ -13,13 +13,15 @@
 # grep "http:\/\/[0-9a-zA-Z&\/.]\+" text.txt
 
 
-function extracttext{
+function extracttext(){
     # 输出text字段，即微博的内容字段．
+    echo "从$1抽取text字段写入$2"
     cat $1 | awk -F, '{te="";for(i=7;i<=NF-4;i++) te= te "," $i; print te;}' > $2
 }
 
-function etl{
+function etl(){
 
+    echo "开始清洗工作-ETL."
     # 生成一个临时文件名
     temp=$(mktemp -u tmp.XXXXXXXX)
 
@@ -41,9 +43,12 @@ function etl{
 }
 
 files=$(ls --color=auto week*.csv)
+echo ${files}
 
-for f in files;do
+for f in ${files};do
     newf="${f%.csv}.txt"
+
+    echo "处理文件$f, 输出文件$newf."
     extracttext "${f}" "${newf}"
     etl "${newf}"
 done
