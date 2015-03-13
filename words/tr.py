@@ -61,7 +61,12 @@ def main():
 
     fo = open(o, "wb")
     with open(f, "rb") as fd:
+        progress = 0
         for line in fd.xreadlines():
+            # 显示进度
+            progress += 1
+            sys.stdout.write("Process line " + str(progress) + "\r")
+
             if conv == "Q2B":
                 b = strQ2B(line.decode("utf-8"))
                 # print b.encode("utf-8")
