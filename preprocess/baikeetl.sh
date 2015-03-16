@@ -15,12 +15,12 @@ function etl(){
 
     # 删除内容头
     echo "删除内容头"
-    sed -e "s/首页分类.\{1,500\}查看我的收藏有用+1 //g"  $1  > ${temp}
+    sed -e "s/^<content>=.*首页分类.*查看我的收藏有用+1 //g"  $1  > ${temp}
     mv ${temp} $1
 
     # 删除内容尾
     echo "删除内容尾"
-    sed -e "s/新手上路.\{1,300\}$//g"  $1  > ${temp}
+    sed -e "s/新手上路.*$//g"  $1  > ${temp}
     mv ${temp} $1
 
 }
