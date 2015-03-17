@@ -32,7 +32,7 @@ def main():
     for line in fd.xreadlines():
 
         progress += 1
-        sys.stdout.write("Process line %d." % progress)
+        sys.stdout.write("Process line %d.\r" % progress)
 
         tokens = jieba.cut(line)
         res = " ".join(tokens).encode("utf-8")
