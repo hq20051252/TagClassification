@@ -28,11 +28,19 @@ def main():
     print "Start cut word."
     start = time.time()
 
+    progress = 0
     for line in fd.xreadlines():
-        fo.write(" ".join(jieba.cut(line)).encode("utf-8"))
+
+        progress += 1
+        sys.stdout.write("Process line %d." % progress)
+
+        tokens = jieba.cut(line)
+        res = " ".join(tokens).encode("utf-8")
+        fo.write(res)
 
     end = time.time()
     time_cost = end - start
+    print "\n"
     print "Cost time %s." % time_cost
     print "Process file completely."
 
