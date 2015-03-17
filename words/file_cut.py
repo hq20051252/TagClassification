@@ -6,7 +6,7 @@ import time
 import jieba
 
 jieba.load_userdict(r'/home/heqi/TagClassification/userdict/userdict.txt')
-jieba.enable_parallel()
+#jieba.enable_parallel()
 
 
 def usage():
