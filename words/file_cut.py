@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*-coding:utf-8-*-
 
+import sys
 import time
 import jieba
 
@@ -8,9 +9,21 @@ import jieba
 jieba.enable_parallel()
 
 
+def usage():
+    print "Usage: python file_cut.py <input> <output>"
+    sys.exit(1)
+
+
 def main():
-    fd = open("../data/tg.txt", "rb")
-    fo = open("./tmp.txt", "wb")
+    if len(sys.argv) == 3:
+        f = sys.argv[1]
+        o = sys.argv[2]
+
+    else:
+        usage()
+
+    fd = open(f, "rb")
+    fo = open(o, "wb")
 
     print "Start cut word."
     start = time.time()
